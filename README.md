@@ -21,5 +21,6 @@ There's also and option to change the random ID to a timestamp using cutting edg
 3. Load up the extension
 4. Setup your preferences
 5. Save 💾
+6. Right click on an input and click on "Generate Email" whenever you need a new email.
 
 "Simplicity is the ultimate sophistication."
