@@ -28,7 +28,7 @@ const PreferencesSchema = Yup.object().shape({
   idLength: Yup.number().when('generationMethod', {
     is: GenerationMethod.randID,
     then: Yup.number()
-      .min(1, 'ID length must at least be 1')
+      .min(6, 'ID length must at least be 6')
       .required('ID length is required'),
   }),
 });
@@ -76,7 +76,11 @@ const Options: React.FC<Props> = () => {
 
   const sampleEmail = useMemo(() => {
     if (isValid && values.idLength && values.generationMethod) {
-      return generate(values.email, values.idLength, values.generationMethod);
+      if (values.generationMethod === GenerationMethod.randID) {
+        return generate(values.email, values.generationMethod, values.idLength);
+      }
+
+      return generate(values.email, values.generationMethod);
     }
 
     return '';
@@ -84,7 +88,6 @@ const Options: React.FC<Props> = () => {
 
   useEffect(() => {
     setLoading(true);
-
 
     (async () => {
       const data = await sync.get([
@@ -158,6 +161,7 @@ const Options: React.FC<Props> = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.idLength}
+                min={6}
               />
               <FormErrorMessage>{errors.idLength}</FormErrorMessage>
             </FormControl>
@@ -172,6 +176,7 @@ const Options: React.FC<Props> = () => {
           </Box>
 
           <Button
+            isLoading={isSubmitting}
             type="submit"
             colorScheme="blue"
             disabled={isSubmitting || !isValid}
