@@ -3,14 +3,18 @@
     "description": "Append a random data to your email",
     "version": "1.0",
     "manifest_version": 3,
-    "action": {},
+    "action": {
+        "default_popup": "popup.html"
+    },
     "permissions": [
         "storage",
         "contextMenus",
         "tabs",
         "scripting"
     ],
-    "host_permissions" : ["<all_urls>"],
+    "host_permissions": [
+        "<all_urls>"
+    ],
     "background": {
         "service_worker": "background.js"
     },

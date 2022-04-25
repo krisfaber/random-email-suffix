@@ -23,6 +23,7 @@ module.exports = {
   entry: {
     background: path.resolve(__dirname, 'src', 'background.ts'),
     options: path.join(__dirname, 'src', 'options', 'index.tsx'),
+    popup: path.join(__dirname, 'src', 'popup', 'index.tsx'),
     'fill-email': path.join(__dirname, 'src', 'fill-email.ts'),
   },
   output: {
@@ -92,6 +93,13 @@ module.exports = {
       chunks: ['options'],
       cache: false,
       title: 'Options',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'base.html'),
+      filename: 'popup.html',
+      chunks: ['popup'],
+      cache: false,
+      title: 'Popup',
     }),
   ],
   optimization: {

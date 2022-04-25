@@ -10,9 +10,6 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-chrome.action.onClicked.addListener(() => {
-  showOptions();
-});
 
 chrome.contextMenus.onClicked.addListener(async (clickData) => {
   if (clickData.menuItemId === 'generate-email') {
