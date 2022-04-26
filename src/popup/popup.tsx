@@ -13,11 +13,11 @@ import History from '../history/history';
 
 const Popup = () => {
   return (
-    <Box minWidth={'320px'}>
-      <Tabs isFitted isLazy variant="enclosed" pb={'4'} size="sm">
+    <Box minWidth={'320px'} maxWidth={'320px'}>
+      <Tabs isFitted isLazy variant="line" pb={'4'} size="sm">
         <TabList mb="1em">
-          <Tab>Options</Tab>
-          <Tab>History</Tab>
+          <Tab py={'3'}>Options</Tab>
+          <Tab py={'3'}>History</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

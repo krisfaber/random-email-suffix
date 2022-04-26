@@ -4,9 +4,10 @@ import { render } from 'react-dom';
 import { ChakraProvider, Box, Container, Heading } from '@chakra-ui/react';
 
 import Options from './options';
+import theme from './../utils/theme';
 
 render(
-  <ChakraProvider>
+  <ChakraProvider theme={theme}>
     <Container maxW="md">
       <Box pt={'5'} pb={'10'}>
         <Heading>Options</Heading>

@@ -10,6 +10,11 @@ import {
   CircularProgress,
   Code,
   Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 
@@ -22,7 +27,9 @@ const PreferencesSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
     .required('Email address is required'),
-  generationMethod: Yup.number().min(1, 'Suffix type is required').required('Suffix type is required'),
+  generationMethod: Yup.number()
+    .min(1, 'Suffix type is required')
+    .required('Suffix type is required'),
   idLength: Yup.number().when('generationMethod', {
     is: GenerationMethod.randID,
     then: Yup.number()
@@ -114,8 +121,13 @@ const Options: React.FC<Props> = ({ size = 'default' }) => {
   return (
     <Box position={'relative'}>
       <form onSubmit={formik.handleSubmit}>
-        <FormControl isInvalid={!!errors.email && touched.email} mb={small ? '4' : '8'}>
-          <FormLabel htmlFor="email" fontSize={small ? 'sm' : 'md'}>Email address</FormLabel>
+        <FormControl
+          isInvalid={!!errors.email && touched.email}
+          mb={small ? '4' : '8'}
+        >
+          <FormLabel htmlFor="email" fontSize={small ? 'sm' : 'md'}>
+            Email address
+          </FormLabel>
           <Input
             id="email"
             type="email"
@@ -124,11 +136,18 @@ const Options: React.FC<Props> = ({ size = 'default' }) => {
             value={values.email}
             size={small ? 'sm' : 'md'}
           />
-          <FormErrorMessage  fontSize={small ? 'sm' : 'md'}>{errors.email}</FormErrorMessage>
+          <FormErrorMessage fontSize={small ? 'sm' : 'md'}>
+            {errors.email}
+          </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.generationMethod && touched.generationMethod} mb={small ? '4' : '8'}>
-          <FormLabel htmlFor="generationMethod" fontSize={small ? 'sm' : 'md'}>Suffix Type</FormLabel>
+        <FormControl
+          isInvalid={!!errors.generationMethod && touched.generationMethod}
+          mb={small ? '4' : '8'}
+        >
+          <FormLabel htmlFor="generationMethod" fontSize={small ? 'sm' : 'md'}>
+            Suffix Type
+          </FormLabel>
 
           <Select
             id="generationMethod"
@@ -145,7 +164,9 @@ const Options: React.FC<Props> = ({ size = 'default' }) => {
             <option value={GenerationMethod.randID}>Random ID</option>
             <option value={GenerationMethod.timestamp}>Timestamp</option>
           </Select>
-          <FormErrorMessage fontSize={small ? 'sm' : 'md'}>{errors.generationMethod}</FormErrorMessage>
+          <FormErrorMessage fontSize={small ? 'sm' : 'md'}>
+            {errors.generationMethod}
+          </FormErrorMessage>
         </FormControl>
 
         {values.generationMethod === GenerationMethod.randID && (
@@ -153,22 +174,37 @@ const Options: React.FC<Props> = ({ size = 'default' }) => {
             isInvalid={!!errors.idLength && touched.idLength}
             mb={small ? '4' : '8'}
           >
-            <FormLabel htmlFor="idLength" fontSize={small ? 'sm' : 'md'}>ID length</FormLabel>
-            <Input
+            <FormLabel htmlFor="idLength" fontSize={small ? 'sm' : 'md'}>
+              ID length
+            </FormLabel>
+            <NumberInput
+              size={small ? 'sm' : 'md'}
+              min={6}
               id="idLength"
-              type="number"
-              onChange={handleChange}
+              onChange={(_, val) => {
+                setFieldValue('idLength', val, true);
+              }}
               onBlur={handleBlur}
               value={values.idLength}
-              min={6}
-              size={small ? 'sm' : 'md'}
-            />
-            <FormErrorMessage fontSize={small ? 'sm' : 'md'}>{errors.idLength}</FormErrorMessage>
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+
+            <FormErrorMessage fontSize={small ? 'sm' : 'md'}>
+              {errors.idLength}
+            </FormErrorMessage>
           </FormControl>
         )}
 
         <Box my={small ? '4' : '8'}>
           <Code
+            maxWidth={'100%'}
+            px={'2'}
+            py={'2'}
             colorScheme={'blackAlpha'}
             children={`example email: ${sampleEmail}`}
             variant="solid"
